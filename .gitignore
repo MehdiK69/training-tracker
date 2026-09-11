@@ -13,3 +13,6 @@ frontend/build/
 
 # Général
 .DS_Store
+
+#Claude
+CLAUDE.md
