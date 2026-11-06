@@ -22,3 +22,18 @@ class TrainingSession(models.Model):
         indexes = [
             models.Index(fields=['title', 'date']),
         ]
+
+class Exercise(models.Model):
+    session = models.ForeignKey(
+        TrainingSession,
+        on_delete=models.CASCADE,
+        related_name='exercises',
+    )
+    name = models.CharField(max_length=100)
+    sets = models.PositiveIntegerField(default=1)
+    reps = models.PositiveIntegerField(default=1)
+    weight = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True, help_text="Weight in kg")
+    rest_seconds = models.PositiveIntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.sets}x{self.reps})"

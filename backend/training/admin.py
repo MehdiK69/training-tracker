@@ -1,4 +1,5 @@
-from .models import TrainingSession
+from .models import TrainingSession,Exercise
 from django.contrib import admin
 
 admin.site.register(TrainingSession)
+admin.site.register(Exercise)
