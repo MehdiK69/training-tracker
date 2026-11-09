@@ -61,6 +61,14 @@ function Sessions() {
           <h2>{session.title}</h2>
           <p>{session.date} - {session.duration} min</p>
           <p>{session.description}</p>
+          <ul>
+          {session.exercises.map((exercise) => (
+            <li key={exercise.id}>
+              {exercise.name} - {exercise.sets}x{exercise.reps}
+              {exercise.weight > 0 && ` @ ${exercise.weight} kg`}
+            </li>
+          ))}
+          </ul>
           <button onClick={() => handleDelete(session.id)}>Delete</button>
         </div>
       ))}
