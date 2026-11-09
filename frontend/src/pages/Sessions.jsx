@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import AddExerciseForm from '../components/AddExerciseForm'
 import api from '../api'
 
 function Sessions() {
@@ -69,6 +70,7 @@ function Sessions() {
             </li>
           ))}
           </ul>
+          <AddExerciseForm sessionId={session.id} onAdded={loadSessions} />
           <button onClick={() => handleDelete(session.id)}>Delete</button>
         </div>
       ))}
