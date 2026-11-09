@@ -3,19 +3,65 @@ import api from '../api'
 
 function Sessions() {
   const [sessions, setSessions] = useState([])
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [date, setDate] = useState('')
+  const [duration, setDuration] = useState('')
+  const [error, setError] = useState('')
+
+  const loadSessions = () => {
+    api.get('sessions/').then((response) => setSessions(response.data))
+  }
 
   useEffect(() => {
-    api.get('sessions/').then((response) => setSessions(response.data))
+    loadSessions()
   }, [])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      await api.post('sessions/', {
+        title,
+        description,
+        date,
+        duration: duration || null,
+      })
+      setTitle('')
+      setDescription('')
+      setDate('')
+      setDuration('')
+      setError('')
+      loadSessions()
+    } catch {
+      setError('Could not create the session')
+    }
+  }
+
+  const handleDelete = async (id) => {
+    await api.delete(`sessions/${id}/`)
+    loadSessions()
+  }
 
   return (
     <div>
       <h1>My sessions</h1>
+
+      <form onSubmit={handleSubmit}>
+        <h2>New session</h2>
+        {error && <p>{error}</p>}
+        <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+        <input placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+        <input type="number" placeholder="Duration (min)" value={duration} onChange={(e) => setDuration(e.target.value)} />
+        <button type="submit">Add</button>
+      </form>
+
       {sessions.map((session) => (
         <div key={session.id}>
           <h2>{session.title}</h2>
           <p>{session.date} - {session.duration} min</p>
           <p>{session.description}</p>
+          <button onClick={() => handleDelete(session.id)}>Delete</button>
         </div>
       ))}
     </div>
