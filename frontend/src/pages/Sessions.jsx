@@ -11,6 +11,8 @@ function Sessions() {
   const [duration, setDuration] = useState('')
   const [error, setError] = useState('')
   const navigate = useNavigate()
+  const totalDuration = sessions.reduce((sum, s) => sum + (s.duration || 0), 0)
+  const totalExercises = sessions.reduce((sum, s) => sum + s.exercises.length, 0)
 
   const handleLogout = () => {
     localStorage.removeItem('token')
@@ -54,6 +56,11 @@ function Sessions() {
     <div>
       <h1>My sessions</h1>
       <button onClick={handleLogout}>Log out</button>
+      <div className="stats">
+        <div><strong>{sessions.length}</strong> sessions</div>
+        <div><strong>{totalDuration}</strong> minutes</div>
+        <div><strong>{totalExercises}</strong> exercises</div>
+      </div>
 
       <form onSubmit={handleSubmit}>
         <h2>New session</h2>
