@@ -25,7 +25,7 @@ function Register() {
   return (
     <form onSubmit={handleSubmit}>
       <h1>Register</h1>
-      {error && <p>{error}</p>}
+      {error && <p className="error">{error}</p>}
       <input
         placeholder="Username"
         value={username}

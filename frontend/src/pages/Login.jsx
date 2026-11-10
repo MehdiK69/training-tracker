@@ -22,7 +22,7 @@ function Login() {
   return (
     <form onSubmit={handleSubmit}>
       <h1>Login</h1>
-      {error && <p>{error}</p>}
+      {error && <p className="error">{error}</p>}
       <input
         placeholder="Username"
         value={username}

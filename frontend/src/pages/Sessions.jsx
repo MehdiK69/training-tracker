@@ -57,7 +57,7 @@ function Sessions() {
 
       <form onSubmit={handleSubmit}>
         <h2>New session</h2>
-        {error && <p>{error}</p>}
+        {error && <p className="error">{error}</p>}
         <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
         <input placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
@@ -66,7 +66,7 @@ function Sessions() {
       </form>
 
       {sessions.map((session) => (
-        <div key={session.id}>
+        <div key={session.id} className="session">
           <h2>{session.title}</h2>
           <p>{session.date} - {session.duration} min</p>
           <p>{session.description}</p>
