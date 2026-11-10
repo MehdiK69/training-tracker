@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import AddExerciseForm from '../components/AddExerciseForm'
 import api from '../api'
 
@@ -9,6 +10,12 @@ function Sessions() {
   const [date, setDate] = useState('')
   const [duration, setDuration] = useState('')
   const [error, setError] = useState('')
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    navigate('/login')
+  }
 
   const loadSessions = () => {
     api.get('sessions/').then((response) => setSessions(response.data))
@@ -46,6 +53,7 @@ function Sessions() {
   return (
     <div>
       <h1>My sessions</h1>
+      <button onClick={handleLogout}>Log out</button>
 
       <form onSubmit={handleSubmit}>
         <h2>New session</h2>
