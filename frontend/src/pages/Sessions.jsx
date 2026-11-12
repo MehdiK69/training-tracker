@@ -68,8 +68,10 @@ function Sessions() {
 
   return (
     <div>
-      <h1>My sessions</h1>
-      <button onClick={handleLogout}>Log out</button>
+      <div className="header-container">
+        <h1>My sessions</h1>
+        <button className="logoutButton" onClick={handleLogout}>Log out</button>
+      </div>
       <div className="stats">
         <div><strong>{sessions.length}</strong> sessions</div>
         <div><strong>{totalDuration}</strong> minutes</div>
@@ -96,20 +98,22 @@ function Sessions() {
           <h2>{session.completed && <span className="done">Done</span>} {session.title}</h2>
           <p>{session.date} - {session.duration} min</p>
           <p>{session.description}</p>
-          <ul>
+          <ul className="exercises">
           {session.exercises.map((exercise) => (
             <li key={exercise.id}>
               {exercise.name} - {exercise.sets}x{exercise.reps}
               {exercise.weight > 0 && ` @ ${exercise.weight} kg`}
-              <button onClick={() => handleDeleteExercise(exercise.id)}>Remove</button>
+              <button className="remove" onClick={() => handleDeleteExercise(exercise.id)}>Remove</button>
             </li>
           ))}
           </ul>
           <AddExerciseForm sessionId={session.id} onAdded={loadSessions} />
-          <button onClick={() => handleDelete(session.id)}>Delete</button>
-          <button onClick={() => handleToggleCompleted(session)}>
-            {session.completed ? 'Mark as not done' : 'Mark as done'}
-          </button>
+          <div className="bottomButton">
+            <button onClick={() => handleDelete(session.id)}>Delete</button>
+            <button onClick={() => handleToggleCompleted(session)}>
+              {session.completed ? 'Mark as not done' : 'Mark as done'}
+            </button>
+          </div>
         </div>
       ))}
     </div>
