@@ -70,7 +70,7 @@ function Sessions() {
     <div>
       <div className="header-container">
         <h1>My sessions</h1>
-        <button className="logoutButton" onClick={handleLogout}>Log out</button>
+        <button onClick={handleLogout}>Log out</button>
       </div>
       <div className="stats">
         <div><strong>{sessions.length}</strong> sessions</div>
