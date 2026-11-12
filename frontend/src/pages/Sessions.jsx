@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import DurationChart from '../components/DurationChart.jsx'
 import AddExerciseForm from '../components/AddExerciseForm'
 import api from '../api'
 
@@ -63,6 +64,8 @@ function Sessions() {
     loadSessions()
   }
 
+  const chartSessions = [...sessions].sort((a, b) => a.date.localeCompare(b.date))
+
   return (
     <div>
       <h1>My sessions</h1>
@@ -74,6 +77,10 @@ function Sessions() {
         <div><strong>{completedCount}</strong> completed</div>
       </div>
 
+      <DurationChart
+        dates={chartSessions.map((s) => s.date)}
+        durations={chartSessions.map((s) => s.duration || 0)}
+      />
       <form onSubmit={handleSubmit}>
         <h2>New session</h2>
         {error && <p className="error">{error}</p>}
@@ -106,7 +113,9 @@ function Sessions() {
         </div>
       ))}
     </div>
+
   )
+
 }
 
 export default Sessions
