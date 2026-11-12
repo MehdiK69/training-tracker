@@ -13,6 +13,7 @@ function Sessions() {
   const navigate = useNavigate()
   const totalDuration = sessions.reduce((sum, s) => sum + (s.duration || 0), 0)
   const totalExercises = sessions.reduce((sum, s) => sum + s.exercises.length, 0)
+  const completedCount = sessions.filter((s) => s.completed).length
 
   const handleLogout = () => {
     localStorage.removeItem('token')
@@ -52,6 +53,16 @@ function Sessions() {
     loadSessions()
   }
 
+  const handleToggleCompleted = async (session) => {
+    await api.patch(`sessions/${session.id}/`, { completed: !session.completed })
+    loadSessions()
+  }
+
+  const handleDeleteExercise = async (id) => {
+    await api.delete(`exercises/${id}/`)
+    loadSessions()
+  }
+
   return (
     <div>
       <h1>My sessions</h1>
@@ -60,6 +71,7 @@ function Sessions() {
         <div><strong>{sessions.length}</strong> sessions</div>
         <div><strong>{totalDuration}</strong> minutes</div>
         <div><strong>{totalExercises}</strong> exercises</div>
+        <div><strong>{completedCount}</strong> completed</div>
       </div>
 
       <form onSubmit={handleSubmit}>
@@ -74,7 +86,7 @@ function Sessions() {
 
       {sessions.map((session) => (
         <div key={session.id} className="session">
-          <h2>{session.title}</h2>
+          <h2>{session.completed && <span className="done">Done</span>} {session.title}</h2>
           <p>{session.date} - {session.duration} min</p>
           <p>{session.description}</p>
           <ul>
@@ -82,11 +94,15 @@ function Sessions() {
             <li key={exercise.id}>
               {exercise.name} - {exercise.sets}x{exercise.reps}
               {exercise.weight > 0 && ` @ ${exercise.weight} kg`}
+              <button onClick={() => handleDeleteExercise(exercise.id)}>Remove</button>
             </li>
           ))}
           </ul>
           <AddExerciseForm sessionId={session.id} onAdded={loadSessions} />
           <button onClick={() => handleDelete(session.id)}>Delete</button>
+          <button onClick={() => handleToggleCompleted(session)}>
+            {session.completed ? 'Mark as not done' : 'Mark as done'}
+          </button>
         </div>
       ))}
     </div>

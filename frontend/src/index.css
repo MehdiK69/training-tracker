@@ -80,3 +80,8 @@ button:hover {
   font-size: 1.5rem;
   color: #2563eb;
 }
+
+.done {
+  color: #15803d;
+  font-weight: bold;
+}
