@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import TrainingSession, Exercise
+from .models import TrainingSession, Exercise, Profile
 
 class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,3 +29,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['height_cm', 'weight_kg', 'birth_date', 'level', 'goal', 'weekly_target']

@@ -3,8 +3,8 @@ from django.shortcuts import render
 from rest_framework import viewsets, permissions, generics
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-from .models import TrainingSession, Exercise
-from .serializers import TrainingSessionSerializer, ExerciseSerializer, RegisterSerializer
+from .models import TrainingSession, Exercise, Profile
+from .serializers import TrainingSessionSerializer, ExerciseSerializer, RegisterSerializer, ProfileSerializer
 
 
 class TrainingSessionViewSet(viewsets.ModelViewSet):
@@ -35,3 +35,11 @@ class RegisterView(generics.CreateAPIView):
         user = serializer.save()
         token, _ = Token.objects.get_or_create(user=user)
         return Response({'token': token.key}, status=201)
+
+class ProfileView(generics.RetrieveUpdateAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        profile, _ = Profile.objects.get_or_create(user=self.request.user)
+        return profile
