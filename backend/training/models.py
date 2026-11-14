@@ -8,6 +8,7 @@ class TrainingSession(models.Model):
     date = models.DateField()
     duration = models.PositiveIntegerField(help_text="Duration in minutes", null=True, blank=True)
     completed = models.BooleanField(default=False)
+    favorite = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.title} ({self.date})"

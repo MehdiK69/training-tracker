@@ -18,7 +18,7 @@ class TrainingSessionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TrainingSession
-        fields = ['id', 'title', 'description', 'date', 'duration', 'completed', 'exercises']
+        fields = ['id', 'title', 'description', 'date', 'duration', 'completed', 'favorite', 'exercises']
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)

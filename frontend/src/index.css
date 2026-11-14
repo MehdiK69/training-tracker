@@ -144,3 +144,9 @@ button.remove:hover {
   color: white;
   border: 1px solid #2563eb;
 }
+
+.favorite {
+  color: #b45309;
+  font-weight: bold;
+  margin-left: 0.5rem;
+}

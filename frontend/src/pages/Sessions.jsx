@@ -11,6 +11,7 @@ function Sessions() {
   const [date, setDate] = useState('')
   const [duration, setDuration] = useState('')
   const [error, setError] = useState('')
+  const [onlyFavorites, setOnlyFavorites] = useState(false)
   const navigate = useNavigate()
   const totalDuration = sessions.reduce((sum, s) => sum + (s.duration || 0), 0)
   const totalExercises = sessions.reduce((sum, s) => sum + s.exercises.length, 0)
@@ -59,15 +60,29 @@ function Sessions() {
     loadSessions()
   }
 
+  const handleToggleFavorite = async (session) => {
+    await api.patch(`sessions/${session.id}/`, { favorite: !session.favorite })
+    loadSessions()
+  }
+
   const handleDeleteExercise = async (id) => {
     await api.delete(`exercises/${id}/`)
     loadSessions()
   }
 
+  const visibleSessions = onlyFavorites ? sessions.filter((s) => s.favorite) : sessions
   const chartSessions = [...sessions].sort((a, b) => a.date.localeCompare(b.date))
 
   return (
     <div>
+      <label>
+        <input
+          type="checkbox"
+          checked={onlyFavorites}
+          onChange={(e) => setOnlyFavorites(e.target.checked)}
+        />
+      Favorites only
+      </label>
       <div className="header-container">
         <h1>My sessions</h1>
         <button onClick={handleLogout}>Log out</button>
@@ -93,9 +108,11 @@ function Sessions() {
         <button type="submit">Add</button>
       </form>
 
-      {sessions.map((session) => (
+      {visibleSessions.map((session) => (
         <div key={session.id} className="session">
-          <h2>{session.completed && <span className="done">Done</span>} {session.title}</h2>
+          <h2>{session.completed && <span className="done">Done</span>} {session.title}
+              {session.favorite && <span className="favorite">Favorite</span>}
+          </h2>
           <p>{session.date} - {session.duration} min</p>
           <p>{session.description}</p>
           <ul className="exercises">
@@ -113,13 +130,14 @@ function Sessions() {
             <button onClick={() => handleToggleCompleted(session)}>
               {session.completed ? 'Mark as not done' : 'Mark as done'}
             </button>
+            <button onClick={() => handleToggleFavorite(session)}>
+              {session.favorite ? 'Remove from favorites' : 'Add to favorites'}
+            </button>
           </div>
         </div>
       ))}
     </div>
-
   )
-
 }
 
 export default Sessions
