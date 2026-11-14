@@ -38,3 +38,28 @@ class Exercise(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.sets}x{self.reps})"
+
+class Profile(models.Model):
+    LEVEL_CHOICES = [
+        ('beginner', 'Beginner'),
+        ('intermediate', 'Intermediate'),
+        ('advanced', 'Advanced'),
+    ]
+    GOAL_CHOICES = [
+        ('muscle', 'Build muscle'),
+        ('strength', 'Get stronger'),
+        ('weight_loss', 'Lose weight'),
+        ('endurance', 'Improve endurance'),
+        ('maintenance', 'Stay fit'),
+    ]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    height_cm = models.PositiveIntegerField(null=True, blank=True)
+    weight_kg = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+    level = models.CharField(max_length=20, choices=LEVEL_CHOICES, blank=True)
+    goal = models.CharField(max_length=20, choices=GOAL_CHOICES, blank=True)
+    weekly_target = models.PositiveIntegerField(null=True, blank=True, help_text="Sessions per week")
+
+    def __str__(self):
+        return f"Profile of {self.user.username}"
