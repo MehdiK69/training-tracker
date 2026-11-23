@@ -150,3 +150,28 @@ button.remove:hover {
   font-weight: bold;
   margin-left: 0.5rem;
 }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  color: #52606d;
+}
+
+select {
+  padding: 0.5rem;
+  border: 1px solid #cbd2d9;
+  border-radius: 4px;
+  font-size: 1rem;
+  background: white;
+}
+
+.success {
+  color: #15803d;
+}
+
+.header-container a {
+  margin-left: auto;
+  margin-right: 1rem;
+}

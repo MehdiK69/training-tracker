@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import DurationChart from '../components/DurationChart.jsx'
 import AddExerciseForm from '../components/AddExerciseForm'
 import api from '../api'
@@ -85,6 +85,7 @@ function Sessions() {
       </label>
       <div className="header-container">
         <h1>My sessions</h1>
+        <Link to="/profile">Profile</Link>
         <button onClick={handleLogout}>Log out</button>
       </div>
       <div className="stats">
